@@ -2,3 +2,7 @@ flask==2.0.1
 
 # For RESTful API
 flask-restful==0.3.9
+
+# For manager database
+flask-sqlalchemy==2.5.1
+mysqlclient==2.0.3
