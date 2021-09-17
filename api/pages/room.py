@@ -35,7 +35,8 @@ class Room(Resource):
                 all_passengers = room.passengers  # список экзм. класса Passenger
                 # Параметры пользователя можно посмотреть в api/database/tables/passenger
                 # К полю обращаться по типу passenger.gender or passenger.age
-                if len(all_passengers) == 4:
+                room_passengers_count = 4
+                if len(all_passengers) == room_passengers_count:
                     break
                 for passenger in all_passengers: 
                     print(1)
