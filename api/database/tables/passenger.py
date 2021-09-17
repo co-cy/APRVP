@@ -15,11 +15,15 @@ class Passenger(manager_db.Model):
     interests = manager_db.relationship('Interest', backref='passenger', lazy='dynamic')
     desire_communicate = manager_db.Column(manager_db.Boolean, default=None, nullable=True)
     vaccination_against_covid19 = manager_db.Column(manager_db.Boolean, default=None, nullable=True)
+    hasPet = manager_db.Column(manager_db.Boolean, default=None, nullable=True)
+    hasChild = manager_db.Column(manager_db.Boolean, default=None, nullable=True)
+    smoking = manager_db.Column(manager_db.Boolean, default=None, nullable=True)
 
     # phone = manager_db.Column(manager_db.String(11), default=None, nullable=True)
 
     def __init__(self, place_in_room: int, gender: bool = None, age: int = -1, interests: list = [],
-                 desire_communicate: bool = None, vaccination_against_covid19: bool = None):
+                 desire_communicate: bool = None, vaccination_against_covid19: bool = None, hasPet: bool = None,
+                 hasChild: bool = None, smoking: bool = None):
         self.place_in_room = place_in_room
         self.gender = gender
         self.age = age
@@ -27,3 +31,6 @@ class Passenger(manager_db.Model):
             self.interests.append(item)
         self.desire_communicate = desire_communicate
         self.vaccination_against_covid19 = vaccination_against_covid19
+        self.hasPet = hasPet
+        self.hasChild = hasChild
+        self.smoking = smoking

@@ -10,6 +10,9 @@ from api.database.tables.user import User
 # loading pages
 from api.pages import login
 
+# loading api resources
+from api.pages.room import Room as PageRoom
+
 from flask import Flask
 from flask_restful import Api
 import config
@@ -26,3 +29,4 @@ manager_jwt.init_app(app)
 
 api = Api(app)
 
+api.add_resource(PageRoom, "/room/<string:request_type>")
