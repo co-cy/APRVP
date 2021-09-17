@@ -35,19 +35,20 @@ class Room(Resource):
                 all_passengers = room.passengers  # список экзм. класса Passenger
                 # Параметры пользователя можно посмотреть в api/database/tables/passenger
                 # К полю обращаться по типу passenger.gender or passenger.age
-                room_passengers_count = 4
-                if len(all_passengers) == room_passengers_count:
+                max_count_passenger = 4
+                if len(all_passengers) == max_count_passenger:
                     break
-                for passenger in all_passengers: 
-                    print(1)
 
                 # сумма баллов этой комноты
-                count_ball = 0
-
+                room_points = 0
+                for passenger in all_passengers: 
+                    passenger_points = 0
+                    room_points += passenger_points/max_count_passenger
+                    
                 if "ЕСЛИ ОН ПОДХОДИТ добавляем его в список хороших вариантов" == 1:
-                    good_list.append((count_ball, room))
+                    good_list.append((room_points, room))
                 else:
-                    alternative_list.append((count_ball, room))
+                    alternative_list.append((room_points, room))
 
             # Тут сортируется по от меньшего кол-ва баллов до большего, тут уже всё готово
             return {"alternative_list": list(map(lambda x: x[1].to_json(), sorted(alternative_list, key=lambda x: x[0]))),
