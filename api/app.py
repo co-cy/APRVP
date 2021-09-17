@@ -2,6 +2,9 @@ from api.database.manager_db import manager_db
 from .jwt.manager_jwt import manager_jwt
 
 # loading database tables
+from api.database.tables.passenger import Passenger
+from api.database.tables.interest import Interest
+from api.database.tables.room import Room
 from api.database.tables.user import User
 
 # loading pages
