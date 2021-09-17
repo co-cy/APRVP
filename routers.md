@@ -116,7 +116,33 @@ One travel:
 }
 ```
 
-## app: `/travels/some
+## app: `/travels/[travel]`
+More info about travel (mb copy+past from some web-sites)
+User edit and add more preferences for this travel
+
+## app: `/travels/[travel]/tickets`
+Ранжированный list of seat tickets with info about it
+### server: `/serUserTravelInfo`
+get: big JSON with many data: 
+- Пол
+- Возраст
+- Наличие детей
+- Предпочтения (темы, увлечения) по выборы из списка
+- Поведенческий тип (интровертность по шкале от 0 до 4)
+- Галочки: 
+  - Не хочу детей до 2х лет рядом
+  - Не хочу детей от 2х до 5ти лет рядом
+  - Не хочу детей от 5ти до 7ми лет рядом 
+  - Не хочу детей от 7ми до 12ти лет рядом
+  - Не хочу подростков до 16ти рядом
+- Желаемый диапазон возраста (ползуки на мин и макс)
+- У меня есть прививка от ковид (да / нет / не выбрано)
+- Комментарий
+
+server saved it
+server call py math
+send: list of order seat tickets
+
 ## app: `/profile`
 
 ---
