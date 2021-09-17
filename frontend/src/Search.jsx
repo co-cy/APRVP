@@ -69,7 +69,7 @@ export default () => {
             spacing={3}
         >
             <Grid item xs={6}>
-                <Typography variant="h3" component="h2" textAlign="center">Вы</Typography>
+                <Typography variant="h3" component="h2" align="center">Вы</Typography>
                 <Grid
                     container
                     direction="row"
@@ -102,7 +102,6 @@ export default () => {
                                 <TextField
                                     inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
                                     label="Возраст"
-                                    variant="outlined"
                                     value={age}
                                     onChange={handleChangeAge}
                                     fullWidth
@@ -162,7 +161,7 @@ export default () => {
                 </Grid>
             </Grid>
             <Grid item xs={4}>
-                <Typography variant="h3" component="h2" textAlign="center">Соседи</Typography>
+                <Typography variant="h3" component="h2" align="center">Соседи</Typography>
                 <Grid
                     container
                     direction="row"
@@ -178,6 +177,7 @@ export default () => {
                                 value={neighborsAge}
                                 onChange={handleChangeNeighborsAge}
                                 getAriaValueText={valuetext}
+                                color="primary"
                                 min={1} max={110}
                             />
                         </Box>
@@ -190,7 +190,7 @@ export default () => {
                 </Grid>
             </Grid>
             <Grid item xs={2}>
-                <Typography variant="h3" component="h2" textAlign="center">Поиск</Typography>
+                <Typography variant="h3" component="h2" align="center">Поиск</Typography>
                 <Button variant="outlined">Искать</Button>
             </Grid>
 
