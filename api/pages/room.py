@@ -1,4 +1,6 @@
+from api.database.tables.passenger import Passenger as TablePassenger
 from api.database.tables.room import Room as TableRoom
+from api.database.manager_db import manager_db
 from flask_restful import Resource, reqparse
 
 
@@ -55,3 +57,40 @@ class Room(Resource):
                 return {"message": "id room not in database"}, 400
         else:
             return {"message": "Bad request"}, 400
+
+    def post(self, request_type: str):
+        if request_type == "add":
+            parser = reqparse.RequestParser()
+
+            # about person
+            parser.add_argument('gender', type=bool, required=True)
+            parser.add_argument('age', type=int, required=True)
+            parser.add_argument('preferences', type=dict, required=True)
+            parser.add_argument('communication', type=bool, required=True)
+            parser.add_argument('hasGraft', type=bool, required=True)
+            parser.add_argument('hasPet', type=bool, required=True)
+            parser.add_argument('hasChild', type=bool, required=True)
+            parser.add_argument('smoking', type=bool, required=True)
+
+            parser.add_argument('id_room', type=int, required=True)
+            parser.add_argument('place_in_room', type=int, required=True)
+
+            # ОТСЮДа брать данные о пользователе по типу all_user_parameters["gender"] или all_user_parameters["age"]
+            all_user_parameters = parser.parse_args()
+
+            select_room = TableRoom.query.get(all_user_parameters["id_room"])
+            for passenger in select_room.passengers:
+                if passenger.place_in_room == all_user_parameters["place_in_room"]:
+                    return {}, 400
+
+            new_passenger = TablePassenger(**all_user_parameters)
+            manager_db.session.add(new_passenger)
+
+            select_room.add_passenger(new_passenger)
+
+            manager_db.session.commit()
+
+            return {}
+        else:
+            return {"message": "Bad request"}, 400
+

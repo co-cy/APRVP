@@ -19,6 +19,7 @@ class Room(manager_db.Model):
     # train_car_type = manager_db.Column(manager_db.Integer, nullable=False)
     type_room = manager_db.Column(manager_db.Integer, nullable=False)
 
+    max_count_passenger = manager_db.Column(manager_db.Integer, default=0, nullable=False)
     cur_count_passengers = manager_db.Column(manager_db.Integer, default=0, nullable=False)
     passengers = manager_db.relationship('Passenger', secondary=passengers,
                                          backref=manager_db.backref('rooms', lazy='dynamic'))
@@ -27,13 +28,15 @@ class Room(manager_db.Model):
 
     def __init__(self, type_room: int):
         self.type_room = type_room
+        if type_room == 0:
+            self.max_count_passenger = 4
 
     def add_passenger(self, new_passenger):
         self.cur_count_passengers += 1
         self.passengers.append(new_passenger)
 
         if self.type_room == 0:
-            if self.cur_count_passengers == 4:
+            if self.cur_count_passengers == self.max_count_passenger:
                 self.is_free = False
 
     def to_json(self) -> dict:

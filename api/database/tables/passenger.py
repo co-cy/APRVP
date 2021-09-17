@@ -21,9 +21,9 @@ class Passenger(manager_db.Model):
 
     # phone = manager_db.Column(manager_db.String(11), default=None, nullable=True)
 
-    def __init__(self, place_in_room: int, gender: bool = None, age: int = -1, interests: list = [],
+    def __init__(self, place_in_room: int = -1, gender: bool = None, age: int = -1, interests: list = [],
                  desire_communicate: bool = None, vaccination_against_covid19: bool = None, hasPet: bool = None,
-                 hasChild: bool = None, smoking: bool = None):
+                 hasChild: bool = None, smoking: bool = None, *args, **kwargs):
         self.place_in_room = place_in_room
         self.gender = gender
         self.age = age
