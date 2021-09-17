@@ -4,6 +4,9 @@ from .jwt.manager_jwt import manager_jwt
 # loading database tables
 from api.database.tables.user import User
 
+# loading pages
+from api.pages import login
+
 from flask import Flask
 from flask_restful import Api
 import config
