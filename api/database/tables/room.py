@@ -22,3 +22,32 @@ class Room(manager_db.Model):
     cur_count_passengers = manager_db.Column(manager_db.Integer, default=0, nullable=False)
     passengers = manager_db.relationship('Passenger', secondary=passengers,
                                          backref=manager_db.backref('rooms', lazy='dynamic'))
+
+    is_free = manager_db.Column(manager_db.Boolean, default=True, nullable=False)
+
+    def __init__(self, type_room: int):
+        self.type_room = type_room
+
+    def add_passenger(self, new_passenger):
+        self.cur_count_passengers += 1
+        self.passengers.append(new_passenger)
+
+        if self.type_room == 0:
+            if self.cur_count_passengers == 4:
+                self.is_free = False
+
+    def to_json(self) -> dict:
+        data = {"id_room": self.id,
+                "is_free": self.is_free,
+                "cur_count_passengers": self.cur_count_passengers,
+                "type_room": self.type_room,
+                "passengers": []}
+
+        for passenger in self.passengers:
+            data["passengers"].append({"place_in_room": passenger.place_in_room,
+                                       "gender": passenger.gender,
+                                       "age": passenger.age,
+                                       "interests": [interest.to_text() for interest in passenger.interests],
+                                       "desire_communicate": passenger.desire_communicate,
+                                       "vaccination_against_covid19": passenger.vaccination_against_covid19})
+        return data
