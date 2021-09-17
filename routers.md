@@ -94,6 +94,26 @@ Get information about user
 ## app: `/history`
 Just Lorem (don't dynamic page)
 
+---
+
+## app: `/travels`
+List of user travels (old and active [purchased] travels) //travel is a ticket without seat number
+Active on top and old must be separate from active
+Travel info: 
+```JSON
+{
+    from,
+    to,
+    date,
+    ....
+}
+```
+### server: `/getTravels`
+Return two lists: 
+1. Active travels 
+2. Archived travels (history)
+
+## app: `/travels/some
 ## app: `/profile`
 
 ---
