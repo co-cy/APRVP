@@ -1,0 +1,8 @@
+.grid {
+    min-height: 100vh;
+}
+
+.center {
+    display: flex;
+    justify-content: center;
+}
