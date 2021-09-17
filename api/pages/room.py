@@ -35,16 +35,20 @@ class Room(Resource):
             # ЗАДАЧА: Посчитать сколько баллов получает комната
             for room in TableRoom.query.filter_by(is_free=True).all():
                 all_passengers = room.passengers  # список экзм. класса Passenger
+                max_count_passenger = room.max_count_passenger
                 # Параметры пользователя можно посмотреть в api/database/tables/passenger
                 # К полю обращаться по типу passenger.gender or passenger.age
 
                 # сумма баллов этой комноты
-                count_ball = 0
-
+                room_points = 0
+                for passenger in all_passengers: 
+                    passenger_points = 0
+                    room_points += passenger_points/max_count_passenger
+                    
                 if "ЕСЛИ ОН ПОДХОДИТ добавляем его в список хороших вариантов" == 1:
-                    good_list.append((count_ball, room))
+                    good_list.append((room_points, room))
                 else:
-                    alternative_list.append((count_ball, room))
+                    alternative_list.append((room_points, room))
 
             # Тут сортируется по от меньшего кол-ва баллов до большего, тут уже всё готово
             return {"alternative_list": list(map(lambda x: x[1].to_json(), sorted(alternative_list, key=lambda x: x[0]))),
