@@ -35,6 +35,10 @@ class Room(Resource):
                 all_passengers = room.passengers  # список экзм. класса Passenger
                 # Параметры пользователя можно посмотреть в api/database/tables/passenger
                 # К полю обращаться по типу passenger.gender or passenger.age
+                if len(all_passengers) == 4:
+                    break
+                for passenger in all_passengers: 
+                    print(1)
 
                 # сумма баллов этой комноты
                 count_ball = 0
