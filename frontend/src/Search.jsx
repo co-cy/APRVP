@@ -5,6 +5,7 @@ import {
     Select, Checkbox, MenuItem,
     InputLabel, Slider, Box, Typography, Button
 } from "@material-ui/core"
+import { LoadingButton } from "@material-ui/lab"
 import style from "./style.css"
 
 function valuetext(value) {
@@ -233,7 +234,7 @@ export default () => {
             </Grid>
             <Grid item xs={2}>
                 <Typography variant="h3" component="h2" align="center">Поиск</Typography>
-                <Button variant="outlined" onClick={submit}>Искать</Button>
+                <LoadingButton variant="outlined" onClick={submit} loading >Искать</LoadingButton>
             </Grid>
 
         </Grid>
