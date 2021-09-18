@@ -34,3 +34,14 @@ class Passenger(manager_db.Model):
         self.hasPet = hasPet
         self.hasChild = hasChild
         self.smoking = smoking
+
+    def to_json(self):
+        return {"place_in_room": self.place_in_room,
+                "gender": self.gender,
+                "age": self.age,
+                "interests": [interest.to_text() for interest in self.interests],
+                "desire_communicate": self.desire_communicate,
+                "vaccination_against_covid19": self.vaccination_against_covid19,
+                "hasPet": self.hasPet,
+                "hasChild": self.hasChild,
+                "smoking": self.smoking}

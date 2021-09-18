@@ -40,18 +40,9 @@ class Room(manager_db.Model):
                 self.is_free = False
 
     def to_json(self) -> dict:
-        data = {"id_room": self.id,
+        return {"id_room": self.id,
                 "is_free": self.is_free,
                 "max_count_passenger": self.max_count_passenger,
                 "cur_count_passengers": self.cur_count_passengers,
                 "type_room": self.type_room,
-                "passengers": []}
-
-        for passenger in self.passengers:
-            data["passengers"].append({"place_in_room": passenger.place_in_room,
-                                       "gender": passenger.gender,
-                                       "age": passenger.age,
-                                       "interests": [interest.to_text() for interest in passenger.interests],
-                                       "desire_communicate": passenger.desire_communicate,
-                                       "vaccination_against_covid19": passenger.vaccination_against_covid19})
-        return data
+                "passengers": [passenger.to_json() for passenger in self.passengers]}
