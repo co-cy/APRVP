@@ -60,7 +60,9 @@ class Room(Resource):
                         break
                     if passenger.hasGraft:
                         GraftCount += 1
-                    if passenger.communication == all_user_parameters["desire_communicate"]:
+                    if all_user_parameters["desire_communicate"] == None:
+                        passenger_points += 0
+                    elif passenger.communication == all_user_parameters["desire_communicate"]:
                         passenger_points += 1
                     else:
                         passenger_points -= 1
@@ -82,7 +84,7 @@ class Room(Resource):
                 else:
                     isAlternative = True
                     
-                if not isAlternative:
+                if "ЕСЛИ ОН ПОДХОДИТ добавляем его в список хороших вариантов" == 1:
                     good_list.append((room_points, room))
                 else:
                     alternative_list.append((room_points, room))
