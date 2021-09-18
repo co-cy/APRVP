@@ -15,17 +15,30 @@ export default () => {
     const handleChange = (event, newValue) => {
         setValue(newValue);
     }
-    const [isHasPet, setIsHasPet] = useState(0)
-    const [isHasGraft, setIsHasGraft] = useState(0)
-    const [isHasChild, setIsHasChild] = useState(0)
-    const [isSmoking, setIsSmoking] = useState(0)
+    const [isHasPet, setIsHasPet] = useState(false)
+    const [isHasGraft, setIsHasGraft] = useState(false)
+    const [isHasChild, setIsHasChild] = useState(false)
+    const [isSmoking, setIsSmoking] = useState(false)
 
-    const [gender, setGender] = useState(0) //0 - man, 1 - woman
+    const [gender, setGender] = useState(false) //0 - man, 1 - woman
     const [age, setAge] = useState()
     const [communicate, setCommunicate] = useState() //1 - want, 0 - neutral, -1 - don't want
 
-    const [isNotPets, setIsNotPets] = useState(0) //1 - категорически против
-    
+    const [isNotPets, setIsNotPets] = useState(false) //1 - категорически против
+    const [isNotSmoking, setIsNotSmoking] = useState(false)
+
+    const submit = () => {
+        window.localStorage.setItem('isHasPet', isHasPet)
+        window.localStorage.setItem('isHasGraft', isHasGraft)
+        window.localStorage.setItem('isHasChild', isHasChild)
+        window.localStorage.setItem('isSmoking', isSmoking)
+        window.localStorage.setItem('gender', gender)
+        window.localStorage.setItem('age', age)
+        window.localStorage.setItem('communicate', communicate)
+        window.localStorage.setItem('isNotPets', isNotPets)
+        window.localStorage.setItem('isNotSmoking', isNotSmoking)
+        window.localStorage.setItem('ageRange', value)
+    }
 
     return (
         <Grid
@@ -89,7 +102,7 @@ export default () => {
                     </Grid>
                     <Grid item xs={4}>
                         <FormGroup>
-                            <FormControlLabel control={<Checkbox defaultChecked />} label="Везете домашнее животное" />
+                            <FormControlLabel control={<Checkbox defaultChecked/>} label="Везете домашнее животное" />
                         </FormGroup>
                         <FormGroup>
                             <FormControlLabel control={<Checkbox defaultChecked />} label="Есть прививка от COVID-19" />
@@ -137,14 +150,15 @@ export default () => {
                     </Grid>
                     <Grid item xs={12}>
                         <FormGroup>
-                            <FormControlLabel control={<Checkbox defaultChecked />} label="Есть ли у соседей животные" />
+                            <FormControlLabel control={<Checkbox defaultChecked />} label="Категорически против животных" />
+                            <FormControlLabel control={<Checkbox defaultChecked />} label="Категорически против курения" />
                         </FormGroup>
                     </Grid>
                 </Grid>
             </Grid>
             <Grid item xs={2}>
                 <Typography variant="h3" component="h2" textAlign="center">Поиск</Typography>
-                <Button variant="outlined">Искать</Button>
+                <Button variant="outlined" onClick={submit}>Искать</Button>
             </Grid>
             
             
