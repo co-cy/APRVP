@@ -49,8 +49,8 @@ def apply_caching(response):
     return response
 
 
-@app.route('/ad')
-def z():
-    Room.query.get(1).add_passenger(Passenger.query.get(1))
+@app.route('/ad/<int:id>/<int:id2>')
+def z(id, id2):
+    Room.query.get(id).add_passenger(Passenger.query.get(id2))
     manager_db.session.commit()
     return {}
