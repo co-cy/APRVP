@@ -151,6 +151,9 @@ class Room2(Resource):
             passenger = Passenger(**all_user_parameters)
             manager_db.session.add(passenger)
 
+            for item in preferences:
+                passenger.interests.append(item)
+
             room = TableRoom.query.get(id_room)
             room.passengers.append(passenger)
 
