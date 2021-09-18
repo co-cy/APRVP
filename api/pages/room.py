@@ -73,9 +73,10 @@ class Room(Resource):
                         min_neighborsAge = min(all_user_parameters["neighborsAge"])
                         if passenger.age > max_neighborsAge:
                             difference = passenger.age - max_neighborsAge
+                            passenger_points += pointsForAge(difference)
                         elif passenger.age < min_neighborsAge:
                             difference = min_neighborsAge - passenger.age
-                        passenger_points += pointsForAge(difference)
+                            passenger_points += pointsForAge(difference)
 
                     room_points += passenger_points/max_count_passenger
                 
