@@ -91,13 +91,14 @@ export default () => {
             "neighborsHasChild": neighborsHasChild,
         }
         console.log(body)
-        const res = await fetch('!!!!!!!!!!!!!', {
+        const res = await fetch('https://aprvp.herokuapp.com/room/sorted', {
             body: JSON.stringify(body),
             headers: {
                 'Content-Type': 'application/json'
             },
             method: 'POST',
         })
+        
     }
     return (
         <Grid
