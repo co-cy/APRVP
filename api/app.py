@@ -1,5 +1,6 @@
 from api.database.manager_db import manager_db
 from api.jwt.manager_jwt import manager_jwt
+from flask_jwt import jwt_required
 
 # loading database tables
 from api.database.tables.passenger import Passenger
@@ -50,9 +51,3 @@ def apply_caching(response):
     # print(response.mimetype)
     return response
 
-
-@app.route('/ad/<int:id>/<int:id2>')
-def z(id, id2):
-    Room.query.get(id).add_passenger(Passenger.query.get(id2))
-    manager_db.session.commit()
-    return {}
