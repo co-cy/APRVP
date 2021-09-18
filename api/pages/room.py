@@ -82,7 +82,7 @@ class Room(Resource):
                 else:
                     isAlternative = True
                     
-                if "ЕСЛИ ОН ПОДХОДИТ добавляем его в список хороших вариантов" == 1:
+                if not isAlternative:
                     good_list.append((room_points, room))
                 else:
                     alternative_list.append((room_points, room))
