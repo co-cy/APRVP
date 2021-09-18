@@ -3,8 +3,10 @@ import {
     Grid, FormControl, FormLabel,
     FormControlLabel, TextField, FormGroup,
     Select, Checkbox, MenuItem,
-    InputLabel, Slider, Box, Typography, Button, CircularProgress
+    InputLabel, Slider, Box, Typography, Button, CircularProgress,
 } from "@material-ui/core"
+import Carousel from 'react-material-ui-carousel'
+import Room from "./Room"
 import style from "./style.css"
 
 function ButtonComponent(props) {
@@ -82,19 +84,7 @@ export default () => {
         setNeighborsAge(newDataValue)
     }
 
-    const [goodList, setGoodList] = useState([
-        {
-            "place_in_room": 1,
-            "gender": 1,
-            "age": 18,
-            "interests": "",
-            "desire_communicate": 1,
-            "vaccination_against_covid19": true,
-            "hasPet": true,
-            "hasChild": false,
-            "smoking": true
-        }
-    ])
+    const [goodList, setGoodList] = useState([])
 
     const submit = async () => {
         setIsLoading(true)
@@ -129,6 +119,7 @@ export default () => {
         let json = await res.json();
         console.log(json)
         console.log(json.good_list);
+        setGoodList(json.good_list)
         setIsLoading(false)
     }
     return (
@@ -265,7 +256,15 @@ export default () => {
                 <Typography variant="h3" component="h2" align="center">Поиск</Typography>
                 <ButtonComponent onClick={submit} loading={isLoading} />
             </Grid>
-
+            <Grid item xs={12}>
+                <Box sx={{ height: 300 }}>
+                    {goodList.length === 0 ? <div></div> : <Carousel autoPlay={false} animation="slide">
+                        {
+                            goodList.map((item) => <Room key={item.id_room} room={item} />)
+                        }
+                    </Carousel>}
+                </Box>
+            </Grid>
         </Grid>
     )
 }
