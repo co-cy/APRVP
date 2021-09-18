@@ -2,9 +2,11 @@ import React, { useState } from "react"
 import {
     Grid, FormControl, FormLabel,
     FormControlLabel, TextField, FormGroup,
-    Select, Checkbox, MenuItem,
+    Select, Checkbox, MenuItem, Switch,
     InputLabel, Slider, Box, Typography, Button, CircularProgress,
+    Snackbar
 } from "@material-ui/core"
+import {Alert} from "@material-ui/lab"
 import Carousel from 'react-material-ui-carousel'
 import Room from "./Room"
 import style from "./style.css"
@@ -18,7 +20,6 @@ function ButtonComponent(props) {
         </Button>
     );
 }
-
 
 function valuetext(value) {
     return `${value}`;
@@ -44,6 +45,7 @@ export default () => {
     const [neighborsHasPet, setNeighborsHasPet] = useState(false)
     const [neighborsSmoking, setNeighborsSmoking] = useState(false)
     const [neighborsHasChild, setNeighborsHasChild] = useState(false)
+    const [open, setOpen] = useState(false)
     const handleChangeGender = (event) => {
         setGender(event.target.value)
     }
@@ -83,8 +85,51 @@ export default () => {
     const handleChangeNeighborsAge = (event, newDataValue) => {
         setNeighborsAge(newDataValue)
     }
+    const handleChangeList = (event) => {
+        setChaisedList(event.target.checked)
+    }
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        setOpen(false);
+    }
+
+    const handleBook = (id, place) => {
+        return async () => {
+            let user = {
+                "gender": gender,
+                "age": age,
+                "communication": communication,
+                "hasPet": hasPet,
+                "hasGraft": hasGraft,
+                "hasChild": hasChild,
+                "smoking": isSmoking,
+                "preferences": {
+                    "1": preferences['1'],
+                    "2": preferences['2'],
+                    "3": preferences['3'],
+                    "4": preferences['4'],
+                },
+                "place_in_room": place
+            }
+            const res = await fetch('https://aprvp.herokuapp.com/room/' + id + '/add', {
+                body: JSON.stringify(user),
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                method: 'POST',
+            })
+            console.log(id)
+            setOpen(true)
+            submit()
+        }
+    }
 
     const [goodList, setGoodList] = useState([])
+    const [alternativeList, setAlternativeList] = useState([])
+    const [chaisedList, setChaisedList] = useState(false)
 
     const submit = async () => {
         setIsLoading(true)
@@ -120,6 +165,7 @@ export default () => {
         console.log(json)
         console.log(json.good_list);
         setGoodList(json.good_list)
+        setAlternativeList(json.alternative_list)
         setIsLoading(false)
     }
     return (
@@ -129,7 +175,7 @@ export default () => {
             justifyContent="center"
             spacing={3}
         >
-            <Grid item xs={6}>
+            <Grid item md={6}>
                 <Typography variant="h3" component="h2" align="center">Вы</Typography>
                 <Grid
                     container
@@ -186,7 +232,7 @@ export default () => {
                             </Grid>
                         </Grid>
                     </Grid>
-                    <Grid item xs={4}>
+                    <Grid item md={4}>
                         <FormGroup>
                             <FormControlLabel control={
                                 <Checkbox checked={hasPet} onChange={handleChangePet} />
@@ -209,7 +255,7 @@ export default () => {
                         </FormGroup>
                     </Grid>
 
-                    <Grid item xs={4}>
+                    <Grid item md={4}>
                         <FormGroup>
                             <FormLabel component="legend">Мои интересы</FormLabel>
                             <FormControlLabel control={<Checkbox checked={one} onChange={handleChangePreferences} />} label="Наука" name="1" />
@@ -221,7 +267,7 @@ export default () => {
 
                 </Grid>
             </Grid>
-            <Grid item xs={4}>
+            <Grid item md={4}>
                 <Typography variant="h3" component="h2" align="center">Соседи</Typography>
                 <Grid
                     container
@@ -252,19 +298,50 @@ export default () => {
                     </Grid>
                 </Grid>
             </Grid>
-            <Grid item xs={2}>
+            <Grid item md={2}>
                 <Typography variant="h3" component="h2" align="center">Поиск</Typography>
-                <ButtonComponent onClick={submit} loading={isLoading} />
-            </Grid>
-            <Grid item xs={12}>
-                <Box sx={{ height: 300 }}>
-                    {goodList.length === 0 ? <div></div> : <Carousel autoPlay={false} animation="slide">
-                        {
-                            goodList.map((item) => <Room key={item.id_room} room={item} />)
-                        }
-                    </Carousel>}
+                <Box sx={{ width: "100%", display: "flex", justifyContent: "center", flexDirection: "row" }}>
+                    <ButtonComponent onClick={submit} loading={isLoading} />
                 </Box>
             </Grid>
+            <Grid item md={12}>
+                <Box sx={{ height: 300 }}>
+                    {goodList.length === 0 && alternativeList.length === 0 ? <div></div> : (
+                        <>
+                            <FormControlLabel control={<Switch checked={chaisedList} onChange={handleChangeList}/>} label="Перейти на другие места" />
+                                {
+                                    chaisedList ? 
+                                        alternativeList.length === 0 ? <p>Нет вариантов</p> : (
+                                            <Carousel autoPlay={false} animation="slide" navButtonsAlwaysVisible
+                                                activeIndicatorIconButtonProps={{
+                                                    style: {
+                                                        color: '#E21A1A',
+                                                    }
+                                                }}
+                                            >
+                                                {alternativeList.map((item) => <Room key={item.id_room} room={item} handleBook={handleBook}/>)}
+                                            </Carousel>
+                                        ) :
+                                        goodList.length === 0 ? <p>Нет вариантов</p> : (
+                                            <Carousel autoPlay={false} animation="slide" navButtonsAlwaysVisible
+                                                activeIndicatorIconButtonProps={{
+                                                    style: {
+                                                        color: '#E21A1A',
+                                                    }
+                                                }}
+                                            >
+                                                {goodList.map((item) => <Room key={item.id_room} room={item} handleBook={handleBook}/>)}
+                                            </Carousel>
+                                    )
+                                }
+                        </>)}
+                </Box>
+            </Grid>
+            <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+                <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+                    Место забронированно успешно
+                </Alert>
+            </Snackbar>
         </Grid>
     )
 }
