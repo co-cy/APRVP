@@ -30,3 +30,20 @@ manager_jwt.init_app(app)
 api = Api(app)
 
 api.add_resource(PageRoom, "/room/<string:request_type>")
+
+
+@app.after_request
+def apply_caching(response):
+    response.headers['Access-Control-Allow-Origin'] = '*'
+    response.headers['Access-Control-Allow-Credentials'] = True
+
+    response.headers['Access-Control-Allow-Methods'] = 'GET, OPTIONS, PATCH, DELETE, POST, PUT'
+
+    response.headers['Access-Control-Allow-Headers'] = "Access-Control-Allow-Headers, Origin,Accept, " \
+                                                       "X-Requested-With, Content-Type, " \
+                                                       "Access-Control-Request-Method, Access-Control-Request-Headers"
+
+    # print(response.headers)
+    # print(response.get_data())
+    # print(response.mimetype)
+    return response
