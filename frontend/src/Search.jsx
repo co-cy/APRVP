@@ -98,7 +98,8 @@ export default () => {
             },
             method: 'POST',
         })
-        
+        let json = await res.json();
+        console.log(json)
     }
     return (
         <Grid
