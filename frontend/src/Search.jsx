@@ -28,6 +28,8 @@ export default () => {
     const { one, two, three, four } = preferences;
     const [neighborsAge, setNeighborsAge] = useState([20, 37])
     const [neighborsHasPet, setNeighborsHasPet] = useState(false)
+    const [neighborsSmoking, setNeighborsSmoking] = useState(false)
+    const [neighborsHasChild, setNeighborsHasChild] = useState(false)
     const handleChangeGender = (event) => {
         setGender(event.target.value)
     }
@@ -60,6 +62,36 @@ export default () => {
     }
     const handleChangeNeighborsAge = (event, newDataValue) => {
         setNeighborsAge(newDataValue)
+    }
+    const submit = async () => {
+        console.log('send')
+        const body = {
+            "gender": gender,
+            "age": age,
+            "communication": communication,
+            "hasPet": hasPet,
+            "hasGraft": hasGraft,
+            "hasChild": hasChild,
+            "smoking": isSmoking,
+            "preferences": {
+                "1": preferences['1'],
+                "2": preferences['2'],
+                "3": preferences['3'],
+                "4": preferences['4'],
+            },
+            "neighborsAge": neighborsAge,
+            "neighborsHasPet": neighborsHasPet,
+            "neighborsSmoking": neighborsSmoking,
+            "neighborsHasChild": neighborsHasChild,
+        }
+        console.log(body)
+        const res = await fetch('!!!!!!!!!!!!!', {
+            body: JSON.stringify(body),
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            method: 'POST',
+        })
     }
     return (
         <Grid
@@ -150,11 +182,11 @@ export default () => {
 
                     <Grid item xs={4}>
                         <FormGroup>
-                            <FormLabel component="legend">Предпочтения в дороге</FormLabel>
-                            <FormControlLabel control={<Checkbox checked={one} onChange={handleChangePreferences} />} label="Номер 1" name="1" />
-                            <FormControlLabel control={<Checkbox checked={two} onChange={handleChangePreferences} />} label="Номер 2" name="2" />
-                            <FormControlLabel control={<Checkbox checked={three} onChange={handleChangePreferences} />} label="Номер 3" name="3" />
-                            <FormControlLabel control={<Checkbox checked={four} onChange={handleChangePreferences} />} label="Номер 4" name="4" />
+                            <FormLabel component="legend">Мои интересы</FormLabel>
+                            <FormControlLabel control={<Checkbox checked={one} onChange={handleChangePreferences} />} label="Наука" name="1" />
+                            <FormControlLabel control={<Checkbox checked={two} onChange={handleChangePreferences} />} label="Искусство" name="2" />
+                            <FormControlLabel control={<Checkbox checked={three} onChange={handleChangePreferences} />} label="Спорт" name="3" />
+                            <FormControlLabel control={<Checkbox checked={four} onChange={handleChangePreferences} />} label="Другое" name="4" />
                         </FormGroup>
                     </Grid>
 
@@ -184,14 +216,14 @@ export default () => {
                     </Grid>
                     <Grid item xs={12}>
                         <FormGroup>
-                            <FormControlLabel control={<Checkbox checked={neighborsHasPet} onChange={handleChangeNeighborsPet} />} label="Есть ли у соседей животные" />
+                            <FormControlLabel control={<Checkbox checked={neighborsHasPet} onChange={handleChangeNeighborsPet} />} label="Категорически против домашних животных" />
                         </FormGroup>
                     </Grid>
                 </Grid>
             </Grid>
             <Grid item xs={2}>
                 <Typography variant="h3" component="h2" align="center">Поиск</Typography>
-                <Button variant="outlined">Искать</Button>
+                <Button variant="outlined" onClick={submit}>Искать</Button>
             </Grid>
 
         </Grid>
