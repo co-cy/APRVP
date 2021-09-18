@@ -13,7 +13,7 @@ class Interest(manager_db.Model):
         self.id_interest = id_interest
 
     def to_text(self):
-        list_name = []
+        list_name = ["BAD", "Наука", "Искуство", "Спорт", "Другое"]
         if len(list_name) < self.id_interest:
             return f"no name ({self.id_interest})"
         else:
