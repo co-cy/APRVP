@@ -117,11 +117,11 @@ export default () => {
 
                     <Grid item xs={4}>
                         <FormGroup>
-                            <FormLabel component="legend">Предпочтения в дороге</FormLabel>
-                            <FormControlLabel control={<Checkbox defaultChecked />} label="Номер 1" />
-                            <FormControlLabel control={<Checkbox defaultChecked />} label="Номер 2" />
-                            <FormControlLabel control={<Checkbox defaultChecked />} label="Номер 3" />
-                            <FormControlLabel control={<Checkbox defaultChecked />} label="Номер 4" />
+                            <FormLabel component="legend">Предпочтения по интересам</FormLabel>
+                            <FormControlLabel control={<Checkbox defaultChecked />} label="Наука" />
+                            <FormControlLabel control={<Checkbox defaultChecked />} label="Спорт" />
+                            <FormControlLabel control={<Checkbox defaultChecked />} label="Искусство" />
+                            <FormControlLabel control={<Checkbox defaultChecked />} label="Другое" />
                         </FormGroup>
                     </Grid>
                 
@@ -160,10 +160,7 @@ export default () => {
                 <Typography variant="h3" component="h2" textAlign="center">Поиск</Typography>
                 <Button variant="outlined" onClick={submit}>Искать</Button>
             </Grid>
-            
-            
-            
-            
+
             
             {/* <Grid item xs={4}>
                 <FormGroup>
