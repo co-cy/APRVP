@@ -28,10 +28,13 @@ class Room(Resource):
 
             return {}
         elif request_type == "clear_all":
-            RoomsAndPassengers.query.delete()
             Interest.query.delete()
-            Passenger.query.delete()
+            for room in TableRoom.query.all():
+                room.passengers.clear()
             TableRoom.query.delete()
+            Passenger.query.delete()
+
+            manager_db.session.commit()
         elif request_type == "sorted":
             parser = reqparse.RequestParser()
 
