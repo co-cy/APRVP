@@ -1,4 +1,7 @@
-from api.database.tables.room import Room as TableRoom
+from api.database.tables.room import Room as TableRoom, RoomsAndPassengers
+from api.database.tables.passenger import Passenger
+from api.database.tables.interest import Interest
+from api.database.manager_db import manager_db
 from flask_restful import Resource, reqparse
 import math
 
@@ -35,11 +38,9 @@ class Room(Resource):
             # ЗАДАЧА: Посчитать сколько баллов получает комната
             for room in TableRoom.query.filter_by(is_free=True).all():
                 all_passengers = room.passengers  # список экзм. класса Passenger
+                max_count_passenger = room.max_count_passenger
                 # Параметры пользователя можно посмотреть в api/database/tables/passenger
                 # К полю обращаться по типу passenger.gender or passenger.age
-                max_count_passenger = 4
-                if len(all_passengers) == max_count_passenger:
-                    break
 
                 # сумма баллов этой комноты
                 isAlternative = False
@@ -49,15 +50,14 @@ class Room(Resource):
                     passenger_points = 0
                     if passenger.hasPet != all_user_parameters["neighborsHasPet"]:
                         isAlternative = True
-                        break
                     if passenger.smoking != all_user_parameters["neighborsSmoking"]:
                         isAlternative = True
-                        break
                     if passenger.hasChild != all_user_parameters["neighborsHasChild"]:
                         isAlternative = True
-                        break
+
                     if passenger.hasGraft:
                         GraftCount += 1
+
                     if all_user_parameters["desire_communicate"] == None:
                         passenger_points += 0
                     elif passenger.communication == all_user_parameters["desire_communicate"]:
@@ -83,7 +83,7 @@ class Room(Resource):
                 else:
                     isAlternative = True
 
-                if "ЕСЛИ ОН ПОДХОДИТ добавляем его в список хороших вариантов" == 1:
+                if not isAlternative:
                     good_list.append((room_points, room))
                 else:
                     alternative_list.append((room_points, room))
@@ -98,6 +98,21 @@ class Room(Resource):
                 return data.to_json()
             else:
                 return {"message": "id room not in database"}, 400
+        else:
+            return {"message": "Bad request"}, 400
+
+    def post(self, request_type: str):
+        if request_type == "add":
+            new_room = TableRoom()
+            manager_db.session.add(new_room)
+            manager_db.session.commit()
+
+            return {}
+        elif request_type == "clear_all":
+            RoomsAndPassengers.query.delete()
+            Interest.query.delete()
+            Passenger.query.delete()
+            TableRoom.query.delete()
         else:
             return {"message": "Bad request"}, 400
 
