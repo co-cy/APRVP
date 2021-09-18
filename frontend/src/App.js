@@ -35,21 +35,9 @@ function App() {
     },
   });
   return (
-    <Router>
       <ThemeProvider theme={theme}>
-        <Switch>
-          <Route path="/login">
-            <Login />
-          </Route>
-          <Route path="/registration">
-            <Registration />
-          </Route>
-          <Route path="/search">
-            <Search />
-          </Route>
-        </Switch>
+        <Search />
       </ThemeProvider>
-    </Router>
   );
 }
 
