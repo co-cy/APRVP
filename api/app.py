@@ -11,6 +11,7 @@ from api.database.tables.user import User
 from api.pages import login
 
 # loading api resources
+from api.pages.room import Room2 as PageRoom2
 from api.pages.room import Room as PageRoom
 
 from flask import Flask
@@ -30,6 +31,7 @@ manager_jwt.init_app(app)
 api = Api(app)
 
 api.add_resource(PageRoom, "/room/<string:request_type>")
+api.add_resource(PageRoom2, "/room/<int:id_room>/<string:request_type>")
 
 
 @app.after_request

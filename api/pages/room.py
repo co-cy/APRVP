@@ -1,4 +1,4 @@
-from api.database.tables.room import Room as TableRoom, RoomsAndPassengers
+from api.database.tables.room import Room as TableRoom
 from api.database.tables.passenger import Passenger
 from api.database.tables.interest import Interest
 from api.database.manager_db import manager_db
@@ -128,22 +128,33 @@ class Room2(Resource):
             # about person
             parser.add_argument('gender', type=bool, required=True)
             parser.add_argument('age', type=int, required=True)
-            parser.add_argument('preferences', type=dict, required=True)  # Интерсы совпадают +1 очко за совпадение
-            parser.add_argument('communication', type=bool, required=True)  # Общение совпадает +1 не совпадает -1
-            parser.add_argument('hasGraft', type=bool, required=True)  # Привитые +1, не привитые -1
-            parser.add_argument('hasPet', type=bool, required=True)  # Имеется у других животное +1 иначе -1
-            parser.add_argument('hasChild', type=bool, required=True)  # у других есть +1, нету -1
-            parser.add_argument('smoking', type=bool, required=True)  # другие курят +1, не курят -1
+            parser.add_argument('preferences', type=dict, required=True)
+            parser.add_argument('communication', type=bool, required=True)
+            parser.add_argument('hasGraft', type=bool, required=True)
+            parser.add_argument('hasPet', type=bool, required=True)
+            parser.add_argument('hasChild', type=bool, required=True)
+            parser.add_argument('smoking', type=bool, required=True)
 
             # neighbors ЧТО 100 % должно быть в комнате
-            parser.add_argument('neighborsAge', type=int, action='append', required=True)
-            parser.add_argument('neighborsHasPet', type=bool, required=True)
-            parser.add_argument('neighborsSmoking', type=bool, required=True)
-            parser.add_argument('neighborsHasChild', type=bool, required=True)
+            parser.add_argument('place_in_room', type=int, required=True)
 
             # ОТСЮДа брать данные о пользователе по типу all_user_parameters["gender"] или all_user_parameters["age"]
             all_user_parameters = parser.parse_args()
-            alternative_list = []
+            preferences = []
+            for key, item in all_user_parameters["preferences"].items():
+                if item:
+                    item = Interest(int(key))
+                    manager_db.session.add(item)
+                    preferences.append(item)
+            all_user_parameters["preferences"] = preferences
+
+            passenger = Passenger(**all_user_parameters)
+            manager_db.session.add(passenger)
+
+            room = TableRoom.query.get(id_room)
+            room.passengers.append(passenger)
+
+            manager_db.session.commit()
 
             return {}
         else:
