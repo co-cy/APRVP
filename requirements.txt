@@ -7,3 +7,4 @@ flask-jwt==0.3.2
 # For manager database
 flask-sqlalchemy==2.5.1
 psycopg2==2.9.1
+gunicorn==20.1.0
