@@ -69,6 +69,21 @@ export default () => {
     const handleChangeNeighborsAge = (event, newDataValue) => {
         setNeighborsAge(newDataValue)
     }
+
+    const [goodList, setGoodList] = useState([
+        {
+            "place_in_room": 1,
+            "gender": 1,
+            "age": 18,
+            "interests": "",
+            "desire_communicate": 1,
+            "vaccination_against_covid19": true,
+            "hasPet": true,
+            "hasChild": false,
+            "smoking": true
+        }
+    ])
+
     const submit = async () => {
         console.log('send')
         const body = {
@@ -100,6 +115,7 @@ export default () => {
         })
         let json = await res.json();
         console.log(json)
+        console.log(json.good_list);
     }
     return (
         <Grid
