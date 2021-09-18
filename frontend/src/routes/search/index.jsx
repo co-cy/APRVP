@@ -15,6 +15,18 @@ export default () => {
     const handleChange = (event, newValue) => {
         setValue(newValue);
     }
+    const [isHasPet, setIsHasPet] = useState(0)
+    const [isHasGraft, setIsHasGraft] = useState(0)
+    const [isHasChild, setIsHasChild] = useState(0)
+    const [isSmoking, setIsSmoking] = useState(0)
+
+    const [gender, setGender] = useState(0) //0 - man, 1 - woman
+    const [age, setAge] = useState()
+    const [communicate, setCommunicate] = useState() //1 - want, 0 - neutral, -1 - don't want
+
+    const [isNotPets, setIsNotPets] = useState(0) //1 - категорически против
+    
+
     return (
         <Grid
             container
