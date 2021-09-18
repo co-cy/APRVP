@@ -1,5 +1,5 @@
 from api.database.manager_db import manager_db
-from .jwt.manager_jwt import manager_jwt
+from api.jwt.manager_jwt import manager_jwt
 
 # loading database tables
 from api.database.tables.passenger import Passenger
