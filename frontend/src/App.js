@@ -16,6 +16,9 @@ function App() {
       primary: {
         main: '#E21A1A'
       },
+      success: {
+        main: '#E21A1A'
+      },
       secondary: {
         main: '#767d89'
       }
@@ -24,9 +27,7 @@ function App() {
   return (
     <div className="App">
       <ThemeProvider theme={theme}>
-        <Container>
-          <Search />
-        </Container>
+        <Search />
       </ThemeProvider>
     </div>
   );

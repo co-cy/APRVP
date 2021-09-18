@@ -4,7 +4,7 @@ import {
     FormControlLabel, TextField, FormGroup,
     Select, Checkbox, MenuItem, Switch,
     InputLabel, Slider, Box, Typography, Button, CircularProgress,
-    Snackbar
+    Snackbar, Container
 } from "@material-ui/core"
 import {Alert} from "@material-ui/lab"
 import Carousel from 'react-material-ui-carousel'
@@ -14,7 +14,7 @@ import style from "./style.css"
 function ButtonComponent(props) {
     const { onClick, loading } = props;
     return (
-        <Button variant="outlined" onClick={onClick} disabled={loading}>
+        <Button color="primary" variant="outlined" onClick={onClick} disabled={loading}>
             {loading && <CircularProgress size={30} />}
             {!loading && 'Искать'}
         </Button>
@@ -169,6 +169,8 @@ export default () => {
         setIsLoading(false)
     }
     return (
+        <>
+        <Container>
         <Grid
             container
             direction="row"
@@ -176,7 +178,7 @@ export default () => {
             spacing={3}
         >
             <Grid item md={6}>
-                <Typography variant="h3" component="h2" align="center">Вы</Typography>
+                <Typography variant="h3" component="h2" align="center">О себе</Typography>
                 <Grid
                     container
                     direction="row"
@@ -299,49 +301,49 @@ export default () => {
                 </Grid>
             </Grid>
             <Grid item md={2}>
-                <Typography variant="h3" component="h2" align="center">Поиск</Typography>
-                <Box sx={{ width: "100%", display: "flex", justifyContent: "center", flexDirection: "row" }}>
+                <Box sx={{ width: "100%", height: "100%", display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column" }}>
+                    <Typography variant="h3" component="h2" align="center">Поиск</Typography>
                     <ButtonComponent onClick={submit} loading={isLoading} />
                 </Box>
             </Grid>
-            <Grid item md={12}>
-                <Box sx={{ height: 300 }}>
-                    {goodList.length === 0 && alternativeList.length === 0 ? <div></div> : (
-                        <>
-                            <FormControlLabel control={<Switch checked={chaisedList} onChange={handleChangeList}/>} label="Перейти на другие места" />
-                                {
-                                    chaisedList ? 
-                                        alternativeList.length === 0 ? <p>Нет вариантов</p> : (
-                                            <Carousel autoPlay={false} animation="slide" navButtonsAlwaysVisible
-                                                activeIndicatorIconButtonProps={{
-                                                    style: {
-                                                        color: '#E21A1A',
-                                                    }
-                                                }}
-                                            >
-                                                {alternativeList.map((item) => <Room key={item.id_room} room={item} handleBook={handleBook}/>)}
-                                            </Carousel>
-                                        ) :
-                                        goodList.length === 0 ? <p>Нет вариантов</p> : (
-                                            <Carousel autoPlay={false} animation="slide" navButtonsAlwaysVisible
-                                                activeIndicatorIconButtonProps={{
-                                                    style: {
-                                                        color: '#E21A1A',
-                                                    }
-                                                }}
-                                            >
-                                                {goodList.map((item) => <Room key={item.id_room} room={item} handleBook={handleBook}/>)}
-                                            </Carousel>
-                                    )
-                                }
-                        </>)}
-                </Box>
-            </Grid>
-            <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-                <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
-                    Место забронированно успешно
-                </Alert>
-            </Snackbar>
         </Grid>
+        </Container>
+        <Box sx={{ minHeight: 300, mt: 1 }}>
+            {goodList.length === 0 && alternativeList.length === 0 ? <div></div> : (
+                    <Box style={{ backgroundImage: "url(https://www.rzd.ru/api/media/resources/1736351)", padding: 10, color: "#fff"}}>
+                        <FormControlLabel control={<Switch color="primary" checked={chaisedList} onChange={handleChangeList} />} label="Показать альтернативные места" />
+                        {
+                            chaisedList ? 
+                                alternativeList.length === 0 ? <p>Нет вариантов</p> : (
+                                    <Carousel autoPlay={false} animation="slide" navButtonsAlwaysVisible
+                                        activeIndicatorIconButtonProps={{
+                                            style: {
+                                                color: '#E21A1A',
+                                            }
+                                        }}
+                                    >
+                                        {alternativeList.map((item) => <Room key={item.id_room} room={item} handleBook={handleBook}/>)}
+                                    </Carousel>
+                                ) :
+                                goodList.length === 0 ? <p>Нет вариантов</p> : (
+                                    <Carousel autoPlay={false} animation="slide" navButtonsAlwaysVisible
+                                        activeIndicatorIconButtonProps={{
+                                            style: {
+                                                color: '#E21A1A',
+                                            }
+                                        }}
+                                    >
+                                        {goodList.map((item) => <Room key={item.id_room} room={item} handleBook={handleBook}/>)}
+                                    </Carousel>
+                            )
+                        }
+                </Box>)}
+        </Box>
+        <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+            <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+                Место забронированно успешно
+            </Alert>
+        </Snackbar>
+        </>
     )
 }
