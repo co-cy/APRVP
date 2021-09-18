@@ -3,16 +3,27 @@ import {
     Grid, FormControl, FormLabel,
     FormControlLabel, TextField, FormGroup,
     Select, Checkbox, MenuItem,
-    InputLabel, Slider, Box, Typography, Button
+    InputLabel, Slider, Box, Typography, Button, CircularProgress
 } from "@material-ui/core"
-import { LoadingButton } from "@material-ui/lab"
 import style from "./style.css"
+
+function ButtonComponent(props) {
+    const { onClick, loading } = props;
+    return (
+        <Button variant="outlined" onClick={onClick} disabled={loading}>
+            {loading && <CircularProgress size={30} />}
+            {!loading && 'Искать'}
+        </Button>
+    );
+}
+
 
 function valuetext(value) {
     return `${value}`;
 }
 
 export default () => {
+    const [isLoading, setIsLoading] = useState(false)
     const [gender, setGender] = useState(1)
     const [age, setAge] = useState(18)
     const [communication, setCommunication] = useState(0)
@@ -86,6 +97,7 @@ export default () => {
     ])
 
     const submit = async () => {
+        setIsLoading(true)
         console.log('send')
         const body = {
             "gender": gender,
@@ -117,6 +129,7 @@ export default () => {
         let json = await res.json();
         console.log(json)
         console.log(json.good_list);
+        setIsLoading(false)
     }
     return (
         <Grid
@@ -250,7 +263,7 @@ export default () => {
             </Grid>
             <Grid item xs={2}>
                 <Typography variant="h3" component="h2" align="center">Поиск</Typography>
-                <LoadingButton variant="outlined" onClick={submit} loading >Искать</LoadingButton>
+                <ButtonComponent onClick={submit} loading={isLoading} />
             </Grid>
 
         </Grid>
