@@ -38,8 +38,8 @@ export default function Room({ room, handleBook }) {
                                             color: "#fff"
                                         }}
                                     >
-                                        <Box sx={{ height: "100%", width: "100%", alignItems: "center", display: "flex", justifyContent: "center", flexDirection: "column" }}>
-                                            Свободное место - {room.id_room} купе
+                                        <Box sx={{ height: "100%", width: "100%", alignItems: "center", display: "flex", justifyContent: "center", flexDirection: "column", textAlign: "center" }}>
+                                            Свободно <br /> место - {4*(room.id_room-1)+i+1} купе - {room.id_room}
                                             {i === 0 ? <img src={first} alt="" style={{height: 200}} /> : ""}
                                             {i === 1 ? <img src={second} alt="" style={{ height: 200 }} /> : ""}
                                             {i === 2 ? <img src={third} alt="" style={{ height: 200 }} /> : ""}
@@ -82,15 +82,17 @@ export default function Room({ room, handleBook }) {
                                 </FrontSide>
                                 <BackSide
                                             style={{ backgroundColor: '#767d89', color: "#fff" }}>
-                                    <ul style={{listStyle: "none"}}>
+                                    <ul style={{listStyle: "none", padding: 0}}>
                                         <li>{pass.gender ? "Мужчина" : "Женщина"} - {pass.age} лет</li>
-                                        <li>{pass.desire_communicate ? "Хочет общаться" : "Не хочет общаться"}</li>
+                                        <li>{ pass.desire_communicate === null ? "Все равно на общение" :
+                                        pass.desire_communicate ? "Хочет общаться" : "Не хочет общаться"}</li>
                                         {pass.hasChild ? <li>С маленьким ребенком</li> : ""}
                                         {pass.hasPet ? <li>С домашним животным</li> : ""}
                                         {pass.smoking ? <li>Курит</li> : ""}
                                         {pass.vaccination_against_covid19 ? <li>Вакцинирован от COVID-19</li> : ""}
                                         {pass.interests.length === 0 ? "" : (
                                             <li>
+                                                Интересы:
                                                 <ul style={{ listStyle: "none" }}>
                                                     {pass.interests.map((item, i) => (
                                                         <li key={i}>{item}</li>

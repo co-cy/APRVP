@@ -1,5 +1,15 @@
 import Search from "./Search"
-import { Container, ThemeProvider, createTheme } from "@material-ui/core"
+import Registration from "./Registration"
+import Login from "./Login"
+
+
+import { ThemeProvider, createTheme } from "@material-ui/core"
+
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+} from "react-router-dom";
 
 
 
@@ -25,11 +35,21 @@ function App() {
     },
   });
   return (
-    <div className="App">
+    <Router>
       <ThemeProvider theme={theme}>
-        <Search />
+        <Switch>
+          <Route path="/login">
+            <Login />
+          </Route>
+          <Route path="/registration">
+            <Registration />
+          </Route>
+          <Route path="/search">
+            <Search />
+          </Route>
+        </Switch>
       </ThemeProvider>
-    </div>
+    </Router>
   );
 }
 

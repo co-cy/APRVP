@@ -10,6 +10,7 @@ import {Alert} from "@material-ui/lab"
 import Carousel from 'react-material-ui-carousel'
 import Room from "./Room"
 import style from "./style.css"
+import { Redirect } from "react-router-dom"
 
 function ButtonComponent(props) {
     const { onClick, loading } = props;
@@ -308,7 +309,7 @@ export default () => {
             </Grid>
         </Grid>
         </Container>
-        <Box sx={{ minHeight: 300, mt: 1 }}>
+            <Box sx={{ minHeight: 300, mt: 1 }}>
             {goodList.length === 0 && alternativeList.length === 0 ? <div></div> : (
                     <Box style={{ backgroundImage: "url(https://www.rzd.ru/api/media/resources/1736351)", padding: 10, color: "#fff"}}>
                         <FormControlLabel control={<Switch color="primary" checked={chaisedList} onChange={handleChangeList} />} label="Показать альтернативные места" />
