@@ -45,6 +45,12 @@ export default () => {
     const handleChangeNeighborsPet = (event) => {
         setNeighborsHasPet(event.target.checked)
     }
+    const handleChangeNeighborsSmoking = (event) => {
+        setNeighborsSmoking(event.target.checked)
+    }
+    const handleChangeNeighborsChild = (event) => {
+        setNeighborsHasChild(event.target.checked)
+    }
     const handleChangeGraft = (event) => {
         setHasGraft(event.target.checked)
     }
@@ -217,6 +223,8 @@ export default () => {
                     <Grid item xs={12}>
                         <FormGroup>
                             <FormControlLabel control={<Checkbox checked={neighborsHasPet} onChange={handleChangeNeighborsPet} />} label="Категорически против домашних животных" />
+                            <FormControlLabel control={<Checkbox checked={neighborsSmoking} onChange={handleChangeNeighborsSmoking} />} label="Категорически против курящих" />
+                            <FormControlLabel control={<Checkbox checked={neighborsHasChild} onChange={handleChangeNeighborsChild} />} label="Категорически против детей до двух лет" />
                         </FormGroup>
                     </Grid>
                 </Grid>
