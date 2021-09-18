@@ -11,6 +11,27 @@ class Room(Resource):
         request_type = request_type.lower()
         if request_type == "all":
             return [room.to_json() for room in TableRoom.query.filter_by(is_free=True).all()]
+        elif request_type.isdigit():
+            data = TableRoom.query.get(int(request_type))
+            if data:
+                return data.to_json()
+            else:
+                return {"message": "id room not in database"}, 400
+        else:
+            return {"message": "Bad request"}, 400
+
+    def post(self, request_type: str):
+        if request_type == "add":
+            new_room = TableRoom()
+            manager_db.session.add(new_room)
+            manager_db.session.commit()
+
+            return {}
+        elif request_type == "clear_all":
+            RoomsAndPassengers.query.delete()
+            Interest.query.delete()
+            Passenger.query.delete()
+            TableRoom.query.delete()
         elif request_type == "sorted":
             parser = reqparse.RequestParser()
 
@@ -92,27 +113,6 @@ class Room(Resource):
             return {
                 "alternative_list": list(map(lambda x: x[1].to_json(), sorted(alternative_list, key=lambda x: x[0]))),
                 "good_list": list(map(lambda x: x[1].to_json(), sorted(good_list, key=lambda x: x[0])))}
-        elif request_type.isdigit():
-            data = TableRoom.query.get(int(request_type))
-            if data:
-                return data.to_json()
-            else:
-                return {"message": "id room not in database"}, 400
-        else:
-            return {"message": "Bad request"}, 400
-
-    def post(self, request_type: str):
-        if request_type == "add":
-            new_room = TableRoom()
-            manager_db.session.add(new_room)
-            manager_db.session.commit()
-
-            return {}
-        elif request_type == "clear_all":
-            RoomsAndPassengers.query.delete()
-            Interest.query.delete()
-            Passenger.query.delete()
-            TableRoom.query.delete()
         else:
             return {"message": "Bad request"}, 400
 
