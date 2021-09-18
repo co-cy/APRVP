@@ -47,3 +47,10 @@ def apply_caching(response):
     # print(response.get_data())
     # print(response.mimetype)
     return response
+
+
+@app.route('/ad')
+def z():
+    Room.query.get(1).add_passenger(Passenger.query.get(1))
+    manager_db.session.commit()
+    return {}

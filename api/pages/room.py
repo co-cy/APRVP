@@ -76,12 +76,12 @@ class Room(Resource):
                     if passenger.hasChild != all_user_parameters["neighborsHasChild"]:
                         isAlternative = True
 
-                    if passenger.hasGraft:
+                    if passenger.vaccination_against_covid19:
                         GraftCount += 1
 
-                    if all_user_parameters["desire_communicate"] == None:
+                    if all_user_parameters["communication"] == None:
                         passenger_points += 0
-                    elif passenger.communication == all_user_parameters["desire_communicate"]:
+                    elif passenger.desire_communicate == all_user_parameters["communication"]:
                         passenger_points += 1
                     else:
                         passenger_points -= 1
@@ -113,6 +113,36 @@ class Room(Resource):
             return {
                 "alternative_list": list(map(lambda x: x[1].to_json(), sorted(alternative_list, key=lambda x: x[0]))),
                 "good_list": list(map(lambda x: x[1].to_json(), sorted(good_list, key=lambda x: x[0])))}
+        else:
+            return {"message": "Bad request"}, 400
+
+
+class Room2(Resource):
+    def post(self, id_room, request_type: str):
+        if request_type == "add":
+            parser = reqparse.RequestParser()
+
+            # about person
+            parser.add_argument('gender', type=bool, required=True)
+            parser.add_argument('age', type=int, required=True)
+            parser.add_argument('preferences', type=dict, required=True)  # Интерсы совпадают +1 очко за совпадение
+            parser.add_argument('communication', type=bool, required=True)  # Общение совпадает +1 не совпадает -1
+            parser.add_argument('hasGraft', type=bool, required=True)  # Привитые +1, не привитые -1
+            parser.add_argument('hasPet', type=bool, required=True)  # Имеется у других животное +1 иначе -1
+            parser.add_argument('hasChild', type=bool, required=True)  # у других есть +1, нету -1
+            parser.add_argument('smoking', type=bool, required=True)  # другие курят +1, не курят -1
+
+            # neighbors ЧТО 100 % должно быть в комнате
+            parser.add_argument('neighborsAge', type=int, action='append', required=True)
+            parser.add_argument('neighborsHasPet', type=bool, required=True)
+            parser.add_argument('neighborsSmoking', type=bool, required=True)
+            parser.add_argument('neighborsHasChild', type=bool, required=True)
+
+            # ОТСЮДа брать данные о пользователе по типу all_user_parameters["gender"] или all_user_parameters["age"]
+            all_user_parameters = parser.parse_args()
+            alternative_list = []
+
+            return {}
         else:
             return {"message": "Bad request"}, 400
 
