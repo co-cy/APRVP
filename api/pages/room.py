@@ -72,12 +72,15 @@ class Room(Resource):
                 room_points = 0
                 for passenger in all_passengers:
                     passenger_points = 0
-                    if passenger.hasPet != all_user_parameters["neighborsHasPet"]:
+                    if (not passenger.smoking) != all_user_parameters["neighborsSmoking"]:
                         isAlternative = True
-                    if passenger.smoking != all_user_parameters["neighborsSmoking"]:
+                        print("neighborsSmoking")
+                    if (not passenger.hasChild) != all_user_parameters["neighborsHasChild"]:
                         isAlternative = True
-                    if passenger.hasChild != all_user_parameters["neighborsHasChild"]:
+                        print("neighborsHasChild")
+                    if (not passenger.hasPet) != all_user_parameters["neighborsHasPet"]:
                         isAlternative = True
+                        print("neighborsHasPet")
 
                     if passenger.vaccination_against_covid19:
                         GraftCount += 1
@@ -102,10 +105,10 @@ class Room(Resource):
 
                     room_points += passenger_points / max_count_passenger
 
-                if GraftCount >= len(all_passengers):
-                    room_points += GraftCount
-                else:
-                    isAlternative = True
+                # if GraftCount >= len(all_passengers):
+                #     room_points += GraftCount
+                # else:
+                #     isAlternative = True
 
                 if not isAlternative:
                     good_list.append((room_points, room))
@@ -147,6 +150,8 @@ class Room2(Resource):
                     manager_db.session.add(item)
                     preferences.append(item)
             all_user_parameters["preferences"] = preferences
+            all_user_parameters["desire_communicate"] = all_user_parameters["communication"]
+            all_user_parameters["vaccination_against_covid19"] = all_user_parameters["hasGraft"]
 
             passenger = Passenger(**all_user_parameters)
             manager_db.session.add(passenger)
