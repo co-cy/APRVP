@@ -147,6 +147,8 @@ class Room2(Resource):
                     manager_db.session.add(item)
                     preferences.append(item)
             all_user_parameters["preferences"] = preferences
+            all_user_parameters["desire_communicate"] = all_user_parameters["communication"]
+            all_user_parameters["vaccination_against_covid19"] = all_user_parameters["hasGraft"]
 
             passenger = Passenger(**all_user_parameters)
             manager_db.session.add(passenger)
