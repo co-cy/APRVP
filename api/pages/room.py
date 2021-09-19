@@ -72,9 +72,6 @@ class Room(Resource):
                 room_points = 0
                 for passenger in all_passengers:
                     passenger_points = 0
-                    if passenger.hasPet != all_user_parameters["neighborsHasPet"]:
-                        isAlternative = True
-                        print("neighborsHasPet")
                     if passenger.smoking != all_user_parameters["neighborsSmoking"]:
                         isAlternative = True
                         print("neighborsSmoking")
