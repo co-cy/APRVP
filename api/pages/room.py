@@ -102,10 +102,10 @@ class Room(Resource):
 
                     room_points += passenger_points / max_count_passenger
 
-                if GraftCount >= len(all_passengers):
-                    room_points += GraftCount
-                else:
-                    isAlternative = True
+                # if GraftCount >= len(all_passengers):
+                #     room_points += GraftCount
+                # else:
+                #     isAlternative = True
 
                 if not isAlternative:
                     good_list.append((room_points, room))
