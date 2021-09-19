@@ -74,10 +74,13 @@ class Room(Resource):
                     passenger_points = 0
                     if passenger.hasPet != all_user_parameters["neighborsHasPet"]:
                         isAlternative = True
+                        print("neighborsHasPet")
                     if passenger.smoking != all_user_parameters["neighborsSmoking"]:
                         isAlternative = True
+                        print("neighborsSmoking")
                     if passenger.hasChild != all_user_parameters["neighborsHasChild"]:
                         isAlternative = True
+                        print("neighborsHasChild")
 
                     if passenger.vaccination_against_covid19:
                         GraftCount += 1
